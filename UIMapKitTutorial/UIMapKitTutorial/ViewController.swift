@@ -1,11 +1,14 @@
 import UIKit
 import MapKit
+import CoreLocation
 
 // reference: https://www.raywenderlich.com/7738344-mapkit-tutorial-getting-started
 
 class ViewController: UIViewController {
 
     @IBOutlet private var mapView: MKMapView!
+    
+    private var locationManager: CLLocationManager!
     
     private var artworks: [Artwork] = []
     
@@ -30,21 +33,48 @@ class ViewController: UIViewController {
         }
     }
     
+    // reference: https://stackoverflow.com/questions/15177400/using-ibaction-buttons-to-zoom-mapview
+    @IBAction private func zoomIn(sender: UIButton) {
+        var region = self.mapView.region
+        region.span.latitudeDelta /= 2.0
+        region.span.longitudeDelta /= 2.0
+        print(">>>> zoomIn new span = \(region.span)")
+        self.mapView.setRegion(region, animated: true)
+    }
+    
+    @IBAction private func zoomOut(sender: UIButton) {
+        var region = self.mapView.region
+        region.span.latitudeDelta = min(region.span.latitudeDelta * 2.0, 180)
+        region.span.longitudeDelta = min(region.span.longitudeDelta * 2.0, 180)
+        print(">>>> zoomOut new span = \(region.span)")
+        self.mapView.setRegion(region, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
+            locationManager.startUpdatingLocation()
+        }
         
         // 設定初始座標
         let initLocation: CLLocation = .init(latitude: 21.282778, longitude: -157.829444)
         self.mapView.centerToLocation(location: initLocation)
         
+        //self.mapView.userTrackingMode = .follow
+        
         // 設定邊界 - 地圖可以滾動的範圍
         let oahuCenter: CLLocation = .init(latitude: 21.4765, longitude: -157.9647)
         let region: MKCoordinateRegion = .init(center: oahuCenter.coordinate, latitudinalMeters: 50000, longitudinalMeters: 60000)
         mapView.setCameraBoundary(.init(coordinateRegion: region), animated: true)
-        
-        // 設定zoom的範圍
-        let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
-        mapView.setCameraZoomRange(zoomRange, animated: true)
+
+//        // 設定zoom的範圍
+//        let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
+//        mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // setup marker view
 //        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
@@ -72,8 +102,22 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
+extension ViewController: CLLocationManagerDelegate {
+    
+}
+
 // MARK: - MKMapViewDelegate
 extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        print(">>>> regionWillChangeAnimated = \(mapView.region.span)")
+        print(">>>> visible = \(mapView.visibleMapRect)")
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        print(">>>> regionDidChangeAnimated = \(mapView.region.span)")
+        print(">>>> visible = \(mapView.visibleMapRect)")
+    }
     
     // tap annotation after call
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {

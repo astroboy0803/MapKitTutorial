@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7879A27527C5EC1B00D84A48"
-               BuildableName = "MapKitTutorial.app"
-               BlueprintName = "MapKitTutorial"
-               ReferencedContainer = "container:MapKitTutorial.xcodeproj">
+               BlueprintIdentifier = "7875A2D827C77D7500B9BB18"
+               BuildableName = "UIMapKitTutorial.app"
+               BlueprintName = "UIMapKitTutorial"
+               ReferencedContainer = "container:UIMapKitTutorial.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7879A27527C5EC1B00D84A48"
-            BuildableName = "MapKitTutorial.app"
-            BlueprintName = "MapKitTutorial"
-            ReferencedContainer = "container:MapKitTutorial.xcodeproj">
+            BlueprintIdentifier = "7875A2D827C77D7500B9BB18"
+            BuildableName = "UIMapKitTutorial.app"
+            BlueprintName = "UIMapKitTutorial"
+            ReferencedContainer = "container:UIMapKitTutorial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <LocationScenarioReference
@@ -65,10 +65,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7879A27527C5EC1B00D84A48"
-            BuildableName = "MapKitTutorial.app"
-            BlueprintName = "MapKitTutorial"
-            ReferencedContainer = "container:MapKitTutorial.xcodeproj">
+            BlueprintIdentifier = "7875A2D827C77D7500B9BB18"
+            BuildableName = "UIMapKitTutorial.app"
+            BlueprintName = "UIMapKitTutorial"
+            ReferencedContainer = "container:UIMapKitTutorial.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
