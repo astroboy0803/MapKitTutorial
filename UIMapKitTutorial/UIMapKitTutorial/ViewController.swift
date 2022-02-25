@@ -72,13 +72,13 @@ class ViewController: UIViewController {
         let region: MKCoordinateRegion = .init(center: oahuCenter.coordinate, latitudinalMeters: 50000, longitudinalMeters: 60000)
         mapView.setCameraBoundary(.init(coordinateRegion: region), animated: true)
 
-//        // 設定zoom的範圍
-//        let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
-//        mapView.setCameraZoomRange(zoomRange, animated: true)
+        // 設定zoom的範圍
+        let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
+        mapView.setCameraZoomRange(zoomRange, animated: true)
         
         // setup marker view
-//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+//        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         // 設定annotation
         let artwork: Artwork = .init(title: "King David Kalakaua", locationName: "Waikiki Gateway Park", discipline: "Sculpture", coordinate: .init(latitude: 21.283921, longitude: -157.831661))
