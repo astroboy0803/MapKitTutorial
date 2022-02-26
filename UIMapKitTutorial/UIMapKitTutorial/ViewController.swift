@@ -76,8 +76,8 @@ class ViewController: UIViewController {
         let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
         mapView.setCameraZoomRange(zoomRange, animated: true)
         
-        // setup marker view
-        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        // custom view: register
+//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
 //        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
         // 設定annotation
@@ -131,23 +131,27 @@ extension ViewController: MKMapViewDelegate {
     }
     
     // show annotation before call
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        guard let annotation = annotation as? Artwork else {
-//            return nil
-//        }
-//        let identifier = "artwork"
-//        var view: MKMarkerAnnotationView
-//        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
-//            dequeuedView.annotation = annotation
-//            view = dequeuedView
-//        } else {
-//            view = .init(annotation: annotation, reuseIdentifier: identifier)
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? Artwork else {
+            return nil
+        }
+        let identifier = "artwork"
+        var view: MKMarkerAnnotationView
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
+            dequeuedView.annotation = annotation
+            view = dequeuedView
+        } else {
+            view = .init(annotation: annotation, reuseIdentifier: identifier)
 //            view.canShowCallout = true
 //            view.calloutOffset = .init(x: -5, y: 5)
 //            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-//        }
-//        return view
-//    }
+//            view.leftCalloutAccessoryView = UIButton(type: .contactAdd)
+            view.markerTintColor = .systemOrange
+            view.glyphImage = .init(systemName: "house.fill")
+        }
+        
+        return view
+    }
 }
 
 // MARK: - MKMapView
