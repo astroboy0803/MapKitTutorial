@@ -52,19 +52,46 @@ struct UIMapView: UIViewRepresentable {
     }
     
     func updateAnnotations(mapView: MKMapView) {
-        mapView.removeAnnotations(mapView.annotations)
+        let inAnnotations = mapView.annotations
         if region.span.latitudeDelta <= 0.1 {
             //road
         } else if region.span.latitudeDelta <= 0.2 {
-            //area
-            mapView.addAnnotations(twAreas.filter({
-                mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
-            }))
-        } else {
-            // city
-            mapView.addAnnotations(twCities.filter {
+            let inAreas = twAreas.filter({
                 mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
             })
+            
+            guard let inTWAreas = inAnnotations as? [TWArea] else {
+                mapView.removeAnnotations(inAnnotations)
+                mapView.addAnnotations(inAreas)
+                return
+            }
+            let rmAnnotations = inTWAreas.filter({ !mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
+            let inTownCode = inTWAreas
+                .filter({ mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
+                .compactMap({ $0.towncode })
+            let addAnnotations = inAreas.filter { !inTownCode.contains($0.towncode) }
+            mapView.removeAnnotations(rmAnnotations)
+            mapView.addAnnotations(addAnnotations)
+            
+        } else {
+            let inCities = twCities.filter({
+                mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
+            })
+            
+            // city
+            guard let inTWCities = inAnnotations as? [TWCity] else {
+                mapView.removeAnnotations(inAnnotations)
+                mapView.addAnnotations(inCities)
+                return
+            }
+            
+            let rmAnnotations = inTWCities.filter({ !mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
+            let inCountycode = inTWCities
+                .filter({ mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
+                .compactMap({ $0.countycode })
+            let addAnnotations = inCities.filter { !inCountycode.contains($0.countycode) }
+            mapView.removeAnnotations(rmAnnotations)
+            mapView.addAnnotations(addAnnotations)
         }
     }
 }
