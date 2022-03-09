@@ -50,7 +50,7 @@ class CircleAnnotationView: MKAnnotationView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override var annotation: MKAnnotation? {
         willSet {
             switch newValue {
@@ -68,22 +68,22 @@ class CircleAnnotationView: MKAnnotationView {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-    
+
     private func setupUI() {
         frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         centerOffset = CGPoint(x: 0, y: -frame.size.height / 2)
-        
+
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 30
         layer.backgroundColor = UIColor.systemYellow.cgColor
-        
+
         addSubview(countLabel)
         countLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             countLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            countLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            countLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }
@@ -93,27 +93,27 @@ class CircleView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func draw(_ rect: CGRect) {
         // Get the Graphics Context
         if let context = UIGraphicsGetCurrentContext() {
-            
+
             // Set the circle outerline-width
-            context.setLineWidth(1);
-            
+            context.setLineWidth(1)
+
             // Set the circle outerline-colour
             UIColor.red.set()
-            
+
             // Create Circle
             let center = CGPoint(x: rect.maxX/2, y: rect.maxY/2)
             let radius = rect.maxX/2
             context.addArc(center: center, radius: radius, startAngle: 0.0, endAngle: .pi * 2.0, clockwise: true)
-            
+
             // Draw
             context.fillPath()
 //            context.strokePath()

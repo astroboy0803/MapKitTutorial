@@ -13,7 +13,7 @@ internal final class TWArea: NSObject, Identifiable, Codable {
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.countycode = try container.decode(String.self, forKey: .countycode)
@@ -23,7 +23,7 @@ internal final class TWArea: NSObject, Identifiable, Codable {
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.count = try container.decode(Int64.self, forKey: .count)
     }
-    
+
     static func Loader() -> [TWArea] {
         guard
             let jsonURL = Bundle.main.url(forResource: "Area", withExtension: "json"),
@@ -37,5 +37,5 @@ internal final class TWArea: NSObject, Identifiable, Codable {
 }
 
 extension TWArea: MKAnnotation {
-    
+
 }

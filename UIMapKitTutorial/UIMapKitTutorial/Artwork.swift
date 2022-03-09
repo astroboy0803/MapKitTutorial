@@ -7,7 +7,7 @@ class Artwork: NSObject {
     let locationName: String?
     let discipline: String?
     let coordinate: CLLocationCoordinate2D
-    
+
     var mapItem: MKMapItem? {
         guard let locationName = locationName else {
             return nil
@@ -18,7 +18,7 @@ class Artwork: NSObject {
         mapItem.name = title
         return mapItem
     }
-    
+
     var markerTintColor: UIColor {
         switch discipline {
         case "Monument":
@@ -33,7 +33,7 @@ class Artwork: NSObject {
             return .green
         }
     }
-    
+
     var image: UIImage {
         switch discipline {
         case "Monument":
@@ -48,16 +48,16 @@ class Artwork: NSObject {
             return #imageLiteral(resourceName: "Flag")
         }
     }
-    
+
     init(title: String?, locationName: String?, discipline: String?, coordinate: CLLocationCoordinate2D) {
         self.title = title
         self.locationName = locationName
         self.discipline = discipline
         self.coordinate = coordinate
-        
+
         super.init()
     }
-    
+
     init?(feature: MKGeoJSONFeature) {
         guard
             let point = feature.geometry.first as? MKPointAnnotation,

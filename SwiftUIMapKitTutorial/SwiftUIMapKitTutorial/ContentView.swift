@@ -9,23 +9,23 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    
+
     @State private var region: MKCoordinateRegion
-    
+
     @State private var places: [Place] = []
-    
+
     @State private var twCities: [TWCity] = []
-    
+
     @State private var twAreas: [TWArea] = []
-    
+
     init() {
         region = .init(center: .init(latitude: 23.973875, longitude: 120.982024), span: .init(latitudeDelta: 4, longitudeDelta: 4))
     }
-    
+
     var body: some View {
 //        uikit's map - mkmapview
         VStack {
-            Text("latitude = \(region.center.latitude))")
+            Text("latitude = \(region.center.latitude)")
             Text("longitude = \(region.center.longitude)")
             Text("latitudeDelta = \(region.span.latitudeDelta)")
             Text("longitudeDelta = \(region.span.longitudeDelta)")
@@ -35,7 +35,7 @@ struct ContentView: View {
             twCities.append(contentsOf: TWCity.Loader())
             twAreas.append(contentsOf: TWArea.Loader())
         }
-        
+
 //        swiftui's map
 //        MapView(region: $region, places: $places)
 //        MapExample()

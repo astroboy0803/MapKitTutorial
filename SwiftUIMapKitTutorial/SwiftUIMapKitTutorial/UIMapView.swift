@@ -2,37 +2,37 @@ import SwiftUI
 import MapKit
 
 struct UIMapView: UIViewRepresentable {
-    
+
     @Binding var region: MKCoordinateRegion
-    
+
     @Binding var twCities: [TWCity]
-    
+
     @Binding var twAreas: [TWArea]
-    
+
     /// Creates the view object and configures its initial state.
     /// The system calls this method only once, when it creates your view for the first time.
     /// uiview初始化設定
     func makeUIView(context: Context) -> MKMapView {
-        
+
         let mkMapView: MKMapView = .init()
-        
+
         // 旋轉
         mkMapView.isRotateEnabled = false
         // map能否3d檢視 -> 兩指向上
         mkMapView.isPitchEnabled = false
-        
+
         // 縮放
 //        mkMapView.isZoomEnabled = false
         // 移動
 //        mkMapView.isScrollEnabled = false
         // map格式 -> 預設standard
 //        mkMapView.mapType = .standard
-        
+
         mkMapView.delegate = context.coordinator
-        
+
         return mkMapView
     }
-    
+
     /// Updates the state of the specified view with new information from SwiftUI.
     /// When the state of your app changes, SwiftUI updates the portions of your
     /// interface affected by those changes. SwiftUI calls this method for any
@@ -44,20 +44,20 @@ struct UIMapView: UIViewRepresentable {
             uiView.setRegion(region, animated: true)
         }
     }
-    
+
     func makeCoordinator() -> UIMapCoordinator {
         .init(uiMapView: self)
     }
-    
+
     func updateAnnotations(mapView: MKMapView) {
         let inAnnotations = mapView.annotations
         if region.span.latitudeDelta <= 0.1 {
-            //road
+            // road
         } else if region.span.latitudeDelta <= 0.2 {
             let inAreas = twAreas.filter({
                 mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
             })
-            
+
             guard let inTWAreas = inAnnotations as? [TWArea] else {
                 mapView.removeAnnotations(inAnnotations)
                 mapView.addAnnotations(inAreas)
@@ -70,19 +70,19 @@ struct UIMapView: UIViewRepresentable {
             let addAnnotations = inAreas.filter { !inTownCode.contains($0.towncode) }
             mapView.removeAnnotations(rmAnnotations)
             mapView.addAnnotations(addAnnotations)
-            
+
         } else {
             let inCities = twCities.filter({
                 mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
             })
-            
+
             // city
             guard let inTWCities = inAnnotations as? [TWCity] else {
                 mapView.removeAnnotations(inAnnotations)
                 mapView.addAnnotations(inCities)
                 return
             }
-            
+
             let rmAnnotations = inTWCities.filter({ !mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
             let inCountycode = inTWCities
                 .filter({ mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })

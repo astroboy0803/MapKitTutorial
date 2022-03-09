@@ -13,20 +13,20 @@ struct Place: Identifiable {
 }
 
 struct MapView: View {
-    
+
     @Binding var region: MKCoordinateRegion
-    
+
     @Binding var places: [Place]
-    
+
     var body: some View {
         VStack {
             Text("latitude = \(region.center.latitude), longitude = \(region.center.longitude)")
             Text("latitudeDelta = \(region.span.latitudeDelta), longitudeDelta = \(region.span.longitudeDelta)")
             Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: false, annotationItems: places) { item in
-                //MapPin(coordinate: item.coordinate)
-                
-                //MapMarker(coordinate: item.coordinate)
-                
+                // MapPin(coordinate: item.coordinate)
+
+                // MapMarker(coordinate: item.coordinate)
+
                 MapAnnotation(coordinate: item.coordinate, anchorPoint: .init(x: 0.5, y: 0.5)) {
                     Circle()
                         .strokeBorder(.red, lineWidth: 10)
@@ -42,7 +42,7 @@ struct MapView: View {
 //                                MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
 //                            ]
 //                            mapItem.openInMaps(launchOptions: launchOptions)
-                            
+
                             // zoom in/out -> animation動畫處理
                             let coordinate = item.coordinate
                             let span: MKCoordinateSpan = .init(latitudeDelta: region.span.latitudeDelta / 2, longitudeDelta: region.span.longitudeDelta / 2)
@@ -55,26 +55,26 @@ struct MapView: View {
 }
 
 struct MapView_Previews: PreviewProvider {
-    
+
     @State private static var region: MKCoordinateRegion =
         .init(center: .init(latitude: 23.973875, longitude: 120.982024), span: .init(latitudeDelta: 4, longitudeDelta: 4))
-    
+
     @State private static var places: [Place] = [
         .init(name: "台北市", latitude: 25.03746, longitude: 121.564558)
     ]
-    
+
     static var previews: some View {
         MapView(region: $region, places: $places)
     }
 }
 
 // MARK: - SwiftUI's View Map
-//struct City: Identifiable {
+// struct City: Identifiable {
 //    let id = UUID()
 //    let coordinate: CLLocationCoordinate2D
-//}
+// }
 //
-//struct MapExample: View {
+// struct MapExample: View {
 //    @State private var cities: [City] = [
 //        City(coordinate: .init(latitude: 40.7128, longitude: 74.0060)),
 //        City(coordinate: .init(latitude: 37.7749, longitude: 122.4194)),
@@ -99,9 +99,9 @@ struct MapView_Previews: PreviewProvider {
 //            }
 //        }
 //    }
-//}
+// }
 //
-//final class PinsViewModel: ObservableObject {
+// final class PinsViewModel: ObservableObject {
 //    @Published var mapRect = MKMapRect()
 //    let cities: [City]
 //
@@ -116,9 +116,9 @@ struct MapView_Previews: PreviewProvider {
 //            return rect.union(newRect)
 //        }
 //    }
-//}
+// }
 //
-//struct PinsView: View {
+// struct PinsView: View {
 //    @ObservedObject var viewModel: PinsViewModel
 //
 //    // another initializer 可以依據加入的pin位置算出最適合的中間點
@@ -130,4 +130,4 @@ struct MapView_Previews: PreviewProvider {
 //            MapPin(coordinate: city.coordinate, tint: .accentColor)
 //        }.onAppear(perform: viewModel.fit)
 //    }
-//}
+// }

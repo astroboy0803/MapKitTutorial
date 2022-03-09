@@ -12,7 +12,7 @@ internal class TWCity: NSObject, Identifiable, Codable {
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
-    
+
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.countycode = try container.decode(String.self, forKey: .countycode)
@@ -21,7 +21,7 @@ internal class TWCity: NSObject, Identifiable, Codable {
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.count = try container.decode(Int64.self, forKey: .count)
     }
-    
+
     static func Loader() -> [TWCity] {
         guard
             let jsonURL = Bundle.main.url(forResource: "City", withExtension: "json"),
@@ -35,5 +35,5 @@ internal class TWCity: NSObject, Identifiable, Codable {
 }
 
 extension TWCity: MKAnnotation {
-    
+
 }

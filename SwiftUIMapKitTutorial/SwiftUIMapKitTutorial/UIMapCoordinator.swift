@@ -1,26 +1,28 @@
 import Foundation
 import MapKit
+import Combine
 
 class UIMapCoordinator: NSObject {
+
     private let uiMapView: UIMapView
-    
+
     init(uiMapView: UIMapView) {
         self.uiMapView = uiMapView
     }
 }
 
 extension UIMapCoordinator: MKMapViewDelegate {
-    
+
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         print(">>>> \(#function)")
         uiMapView.updateAnnotations(mapView: mapView)
     }
-    
+
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         print(">>>> \(#function)")
         self.uiMapView.region = mapView.region
     }
-    
+
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         switch view.annotation {
         case let twCity as TWCity:
@@ -33,7 +35,7 @@ extension UIMapCoordinator: MKMapViewDelegate {
             break
         }
     }
-    
+
     // custom view - circle
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
