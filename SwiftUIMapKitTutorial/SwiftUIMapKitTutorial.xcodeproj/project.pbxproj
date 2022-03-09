@@ -9,22 +9,32 @@
 /* Begin PBXBuildFile section */
 		78094EB327C891D9003ECAA3 /* UIMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78094EB227C891D9003ECAA3 /* UIMapView.swift */; };
 		78094EB727C928A6003ECAA3 /* UIMapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78094EB627C928A6003ECAA3 /* UIMapCoordinator.swift */; };
+		7835434E27D78E1500A9225B /* City.json in Resources */ = {isa = PBXBuildFile; fileRef = 7835434C27D78E1500A9225B /* City.json */; };
+		7835434F27D78E1500A9225B /* Area.json in Resources */ = {isa = PBXBuildFile; fileRef = 7835434D27D78E1500A9225B /* Area.json */; };
+		7835435127D78E7800A9225B /* TWCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7835435027D78E7800A9225B /* TWCity.swift */; };
+		7835435327D78E9300A9225B /* TWArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7835435227D78E9300A9225B /* TWArea.swift */; };
 		7876627027C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876626F27C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift */; };
 		7876627227C7D47000D27282 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876627127C7D47000D27282 /* ContentView.swift */; };
 		7876627427C7D47100D27282 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7876627327C7D47100D27282 /* Assets.xcassets */; };
 		7876627727C7D47100D27282 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7876627627C7D47100D27282 /* Preview Assets.xcassets */; };
 		7876627E27C7D4BC00D27282 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876627D27C7D4BC00D27282 /* MapView.swift */; };
+		787D040927D8960C008BA6D9 /* CircleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D040827D8960C008BA6D9 /* CircleAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		78094EB227C891D9003ECAA3 /* UIMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMapView.swift; sourceTree = "<group>"; };
 		78094EB627C928A6003ECAA3 /* UIMapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIMapCoordinator.swift; sourceTree = "<group>"; };
+		7835434C27D78E1500A9225B /* City.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = City.json; sourceTree = "<group>"; };
+		7835434D27D78E1500A9225B /* Area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Area.json; sourceTree = "<group>"; };
+		7835435027D78E7800A9225B /* TWCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWCity.swift; sourceTree = "<group>"; };
+		7835435227D78E9300A9225B /* TWArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TWArea.swift; sourceTree = "<group>"; };
 		7876626C27C7D47000D27282 /* SwiftUIMapKitTutorial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIMapKitTutorial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7876626F27C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIMapKitTutorialApp.swift; sourceTree = "<group>"; };
 		7876627127C7D47000D27282 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7876627327C7D47100D27282 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7876627627C7D47100D27282 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7876627D27C7D4BC00D27282 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		787D040827D8960C008BA6D9 /* CircleAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7835435427D78E9700A9225B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				7835435027D78E7800A9225B /* TWCity.swift */,
+				7835435227D78E9300A9225B /* TWArea.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		7876626327C7D47000D27282 = {
 			isa = PBXGroup;
 			children = (
@@ -57,11 +76,15 @@
 		7876626E27C7D47000D27282 /* SwiftUIMapKitTutorial */ = {
 			isa = PBXGroup;
 			children = (
+				7835435427D78E9700A9225B /* Entity */,
 				7876626F27C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift */,
 				7876627127C7D47000D27282 /* ContentView.swift */,
 				7876627D27C7D4BC00D27282 /* MapView.swift */,
 				78094EB227C891D9003ECAA3 /* UIMapView.swift */,
 				78094EB627C928A6003ECAA3 /* UIMapCoordinator.swift */,
+				787D040827D8960C008BA6D9 /* CircleAnnotationView.swift */,
+				7835434D27D78E1500A9225B /* Area.json */,
+				7835434C27D78E1500A9225B /* City.json */,
 				7876627327C7D47100D27282 /* Assets.xcassets */,
 				7876627527C7D47100D27282 /* Preview Content */,
 			);
@@ -135,6 +158,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7876627727C7D47100D27282 /* Preview Assets.xcassets in Resources */,
+				7835434E27D78E1500A9225B /* City.json in Resources */,
+				7835434F27D78E1500A9225B /* Area.json in Resources */,
 				7876627427C7D47100D27282 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,8 +172,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				7876627227C7D47000D27282 /* ContentView.swift in Sources */,
+				7835435327D78E9300A9225B /* TWArea.swift in Sources */,
 				78094EB327C891D9003ECAA3 /* UIMapView.swift in Sources */,
+				7835435127D78E7800A9225B /* TWCity.swift in Sources */,
 				78094EB727C928A6003ECAA3 /* UIMapCoordinator.swift in Sources */,
+				787D040927D8960C008BA6D9 /* CircleAnnotationView.swift in Sources */,
 				7876627E27C7D4BC00D27282 /* MapView.swift in Sources */,
 				7876627027C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift in Sources */,
 			);

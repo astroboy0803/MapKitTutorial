@@ -5,7 +5,9 @@ struct UIMapView: UIViewRepresentable {
     
     @Binding var region: MKCoordinateRegion
     
-    @Binding var places: [Place]
+    @Binding var twCities: [TWCity]
+    
+    @Binding var twAreas: [TWArea]
     
     /// Creates the view object and configures its initial state.
     /// The system calls this method only once, when it creates your view for the first time.
@@ -28,6 +30,8 @@ struct UIMapView: UIViewRepresentable {
         
         mkMapView.delegate = context.coordinator
         
+        mkMapView.register(CircleAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
         return mkMapView
     }
     
@@ -37,26 +41,31 @@ struct UIMapView: UIViewRepresentable {
     /// changes affecting the corresponding UIKit view. Use this method to
     /// update the configuration of your view to match the new state information
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        print(">>>> update view")
         if region != uiView.region {
             print(">>>> update region")
             uiView.setRegion(region, animated: true)
-        }
-        if places.count != uiView.annotations.count {
-            let annotation = uiView.annotations as? [MKPointAnnotation] ?? []
-            uiView.removeAnnotations(annotation)
-            uiView.addAnnotations(places.map({ place -> MKPointAnnotation in
-                let location: MKPointAnnotation = .init()
-                location.coordinate = place.coordinate
-                location.title = place.name
-                location.subtitle = place.id.uuidString
-                return location
-            }))
         }
     }
     
     func makeCoordinator() -> UIMapCoordinator {
         .init(uiMapView: self)
+    }
+    
+    func updateAnnotations(mapView: MKMapView) {
+        mapView.removeAnnotations(mapView.annotations)
+        if region.span.latitudeDelta <= 0.1 {
+            //road
+        } else if region.span.latitudeDelta <= 0.2 {
+            //area
+            mapView.addAnnotations(twAreas.filter({
+                mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
+            }))
+        } else {
+            // city
+            mapView.addAnnotations(twCities.filter {
+                mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
+            })
+        }
     }
 }
 

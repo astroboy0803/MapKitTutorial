@@ -12,6 +12,10 @@ class ViewController: UIViewController {
     
     private var artworks: [Artwork] = []
     
+    private var twCities: [TWCity] = []
+    
+    private var twAreas: [TWArea] = []
+    
     private func loadInitialData() {
         guard
             let fileName = Bundle.main.url(forResource: "PublicArt", withExtension: "geojson"),
@@ -61,12 +65,25 @@ class ViewController: UIViewController {
             locationManager.startUpdatingLocation()
         }
         
+//        // custom view: register
+//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+//        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+
+        mapView.isRotateEnabled = false
+        
+        mapView.delegate = self
+        
+//        artSetup()
+        twSetup()
+    }
+    
+    private func artSetup() {
         // 設定初始座標
         let initLocation: CLLocation = .init(latitude: 21.282778, longitude: -157.829444)
         self.mapView.centerToLocation(location: initLocation)
-        
+
         //self.mapView.userTrackingMode = .follow
-        
+
         // 設定邊界 - 地圖可以滾動的範圍
         let oahuCenter: CLLocation = .init(latitude: 21.4765, longitude: -157.9647)
         let region: MKCoordinateRegion = .init(center: oahuCenter.coordinate, latitudinalMeters: 50000, longitudinalMeters: 60000)
@@ -76,18 +93,24 @@ class ViewController: UIViewController {
         let zoomRange: MKMapView.CameraZoomRange? = .init(maxCenterCoordinateDistance: 200000)
         mapView.setCameraZoomRange(zoomRange, animated: true)
         
-        // custom view: register
-//        mapView.register(ArtworkMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-//        mapView.register(ArtworkView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        
         // 設定annotation
         let artwork: Artwork = .init(title: "King David Kalakaua", locationName: "Waikiki Gateway Park", discipline: "Sculpture", coordinate: .init(latitude: 21.283921, longitude: -157.831661))
         mapView.addAnnotation(artwork)
-        
+
         mapView.delegate = self
-        
+
         loadInitialData()
         mapView.addAnnotations(artworks)
+    }
+    
+    private func twSetup() {
+        let initLocation: CLLocationCoordinate2D = .init(latitude: 23.973875, longitude: 120.982024)
+        self.mapView.setRegion(.init(center: initLocation, span: .init(latitudeDelta: 5, longitudeDelta: 5)), animated: false)
+        
+        twCities.append(contentsOf: TWCity.Loader())
+        mapView.addAnnotations(twCities)
+        
+        twAreas.append(contentsOf: TWArea.Loader())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,16 +133,97 @@ extension ViewController: CLLocationManagerDelegate {
 // MARK: - MKMapViewDelegate
 extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        print(">>>> regionWillChangeAnimated = \(mapView.region.span)")
-        print(">>>> visible = \(mapView.visibleMapRect)")
+//        print(">>>> regionWillChangeAnimated = \(mapView.region.span)")
+//        print(">>>> visible = \(mapView.visibleMapRect)")
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print(">>>> regionDidChangeAnimated = \(mapView.region.span)")
-        print(">>>> visible = \(mapView.visibleMapRect)")
+        //print(">>>> regionDidChangeAnimated = \(mapView.region.span)")
+        //print(">>>> visible = \(mapView.visibleMapRect)")
+        let span = mapView.region.span
+        mapView.removeAnnotations(mapView.annotations)
+        print("span = \(span)")
+        if span.latitudeDelta >= 3 {
+            mapView.addInVisibleAnnotations(twCities)
+        } else /*if span.latitudeDelta >= 1*/ {
+            mapView.addInVisibleAnnotations(twAreas)
+        }
     }
     
-    // tap annotation after call
+//    // 動畫在動的時候會不斷呼叫, 上面是動畫完成才會被呼叫
+//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+//        print("didchange")
+//    }
+    
+    // show annotation before call
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        switch annotation {
+        case let twCity as TWCity: // 如果要取值的話, 可以用case let接
+            let identifier = "twCity"
+            var view: CircleAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? CircleAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = .init(annotation: annotation, reuseIdentifier: identifier)
+            }
+            return view
+        case let twArea as TWArea:
+            let identifier = "twArea"
+            var view: CircleAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? CircleAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = .init(annotation: annotation, reuseIdentifier: identifier)
+            }
+            return view
+        case is Artwork:
+            let identifier = "artwork"
+            var view: ArtworkView
+            //var view: ArtworkMarkerView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? ArtworkView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = .init(annotation: annotation, reuseIdentifier: identifier)
+    //            view.canShowCallout = true
+    //            view.calloutOffset = .init(x: -5, y: 5)
+    //            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+    //            view.leftCalloutAccessoryView = UIButton(type: .contactAdd)
+    //            view.markerTintColor = .systemOrange
+    //            view.glyphImage = .init(systemName: "house.fill")
+            }
+            return view
+        default:
+            return nil
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let circle = view as? CircleAnnotationView, let annotation = circle.annotation else {
+            return
+        }
+        switch annotation {
+        case let twCity as TWCity:
+            let span: MKCoordinateSpan = .init(latitudeDelta: 0.5, longitudeDelta: 0.5)
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.setRegion(.init(center: twCity.coordinate, span: span), animated: true)
+            print(mapView.region.span.longitudeDelta / 5)
+        case let twArea as TWArea:
+            let twCity = twCities.first(where: { twArea.countycode == $0.countycode })
+            let center = twCity?.coordinate ?? twArea.coordinate
+            let span: MKCoordinateSpan = .init(latitudeDelta: 5, longitudeDelta: 5)
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.setRegion(.init(center: center, span: span), animated: true)
+            
+            print(mapView.region.span.latitudeDelta * 5)
+        default:
+            break
+        }
+    }
+    
+    // tap annotation's AccessoryView after call
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let artwork = view.annotation as? Artwork else {
             return
@@ -129,29 +233,6 @@ extension ViewController: MKMapViewDelegate {
         ]
         artwork.mapItem?.openInMaps(launchOptions: launchOptions)
     }
-    
-    // show annotation before call
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard let annotation = annotation as? Artwork else {
-            return nil
-        }
-        let identifier = "artwork"
-        var view: MKMarkerAnnotationView
-        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView {
-            dequeuedView.annotation = annotation
-            view = dequeuedView
-        } else {
-            view = .init(annotation: annotation, reuseIdentifier: identifier)
-//            view.canShowCallout = true
-//            view.calloutOffset = .init(x: -5, y: 5)
-//            view.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-//            view.leftCalloutAccessoryView = UIButton(type: .contactAdd)
-            view.markerTintColor = .systemOrange
-            view.glyphImage = .init(systemName: "house.fill")
-        }
-        
-        return view
-    }
 }
 
 // MARK: - MKMapView
@@ -159,5 +240,11 @@ private extension MKMapView {
     func centerToLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
         let coordinateRegion: MKCoordinateRegion = .init(center: location.coordinate, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius)
         setRegion(coordinateRegion, animated: true)
+    }
+    
+    func addInVisibleAnnotations(_ annotations: [MKAnnotation]) {
+        self.addAnnotations(annotations.filter {
+            self.visibleMapRect.contains(MKMapPoint($0.coordinate))
+        })
     }
 }
