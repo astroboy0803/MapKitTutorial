@@ -35,7 +35,30 @@ extension UIMapCoordinator: MKMapViewDelegate {
     }
     
     // custom view - circle
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        
-//    }
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        switch annotation {
+        case let twCity as TWCity:
+            let identifier = String(describing: TWCity.self)
+            let view: CircleAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? CircleAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = .init(annotation: annotation, reuseIdentifier: identifier)
+            }
+            return view
+        case let twArea as TWArea:
+            let identifier = String(describing: TWArea.self)
+            let view: MKPinAnnotationView
+            if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView {
+                dequeuedView.annotation = annotation
+                view = dequeuedView
+            } else {
+                view = .init(annotation: annotation, reuseIdentifier: identifier)
+            }
+            return view
+        default:
+            return nil
+        }
+    }
 }

@@ -30,8 +30,6 @@ struct UIMapView: UIViewRepresentable {
         
         mkMapView.delegate = context.coordinator
         
-        mkMapView.register(CircleAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-        
         return mkMapView
     }
     

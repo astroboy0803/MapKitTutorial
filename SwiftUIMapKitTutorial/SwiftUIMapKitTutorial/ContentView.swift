@@ -25,8 +25,10 @@ struct ContentView: View {
     var body: some View {
 //        uikit's map - mkmapview
         VStack {
-            Text("latitude = \(region.center.latitude), longitude = \(region.center.longitude)")
-            Text("latitudeDelta = \(region.span.latitudeDelta), longitudeDelta = \(region.span.longitudeDelta)")
+            Text("latitude = \(region.center.latitude))")
+            Text("longitude = \(region.center.longitude)")
+            Text("latitudeDelta = \(region.span.latitudeDelta)")
+            Text("longitudeDelta = \(region.span.longitudeDelta)")
             UIMapView(region: $region, twCities: $twCities, twAreas: $twAreas)
         }
         .onAppear {
