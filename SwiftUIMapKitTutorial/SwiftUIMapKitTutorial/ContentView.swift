@@ -24,12 +24,24 @@ struct ContentView: View {
 
     var body: some View {
 //        uikit's map - mkmapview
-        VStack {
-            Text("latitude = \(region.center.latitude)")
-            Text("longitude = \(region.center.longitude)")
-            Text("latitudeDelta = \(region.span.latitudeDelta)")
-            Text("longitudeDelta = \(region.span.longitudeDelta)")
-            UIMapView(region: $region, twCities: $twCities, twAreas: $twAreas)
+        ZStack {
+            VStack {
+                Text("latitude = \(region.center.latitude)")
+                Text("longitude = \(region.center.longitude)")
+                Text("latitudeDelta = \(region.span.latitudeDelta)")
+                Text("longitudeDelta = \(region.span.longitudeDelta)")
+                UIMapView(region: $region, twCities: $twCities, twAreas: $twAreas)
+            }
+            BottomSheetView()
+//            SlideOverCard {
+//                VStack {
+//                    Text("Maitland Bay")
+//                        .font(.headline)
+//                        .padding()
+//                    Spacer()
+//                }
+//                .frame(width: UIScreen.main.bounds.width)
+//            }
         }
         .onAppear {
             twCities.append(contentsOf: TWCity.Loader())

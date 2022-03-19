@@ -1,11 +1,10 @@
 import Foundation
 import MapKit
-import Combine
 
 class UIMapCoordinator: NSObject {
-
+    
     private let uiMapView: UIMapView
-
+    
     init(uiMapView: UIMapView) {
         self.uiMapView = uiMapView
     }
@@ -14,12 +13,10 @@ class UIMapCoordinator: NSObject {
 extension UIMapCoordinator: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        print(">>>> \(#function)")
         uiMapView.updateAnnotations(mapView: mapView)
     }
 
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        print(">>>> \(#function)")
         self.uiMapView.region = mapView.region
     }
 

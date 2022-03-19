@@ -8,7 +8,7 @@ struct UIMapView: UIViewRepresentable {
     @Binding var twCities: [TWCity]
 
     @Binding var twAreas: [TWArea]
-
+    
     /// Creates the view object and configures its initial state.
     /// The system calls this method only once, when it creates your view for the first time.
     /// uiview初始化設定
@@ -27,8 +27,10 @@ struct UIMapView: UIViewRepresentable {
 //        mkMapView.isScrollEnabled = false
         // map格式 -> 預設standard
 //        mkMapView.mapType = .standard
-
-        mkMapView.delegate = context.coordinator
+        
+        let coordinator = context.coordinator
+        
+        mkMapView.delegate = coordinator
 
         return mkMapView
     }
@@ -57,19 +59,17 @@ struct UIMapView: UIViewRepresentable {
             let inAreas = twAreas.filter({
                 mapView.visibleMapRect.contains(MKMapPoint($0.coordinate))
             })
-
+            
             guard let inTWAreas = inAnnotations as? [TWArea] else {
                 mapView.removeAnnotations(inAnnotations)
                 mapView.addAnnotations(inAreas)
                 return
             }
-            let rmAnnotations = inTWAreas.filter({ !mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
-            let inTownCode = inTWAreas
-                .filter({ mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
-                .compactMap({ $0.towncode })
-            let addAnnotations = inAreas.filter { !inTownCode.contains($0.towncode) }
-            mapView.removeAnnotations(rmAnnotations)
-            mapView.addAnnotations(addAnnotations)
+
+            let injects = inAreas.filter({ !inTWAreas.contains($0) })
+            let removes = inTWAreas.filter({ !inAreas.contains($0) })
+            mapView.removeAnnotations(removes)
+            mapView.addAnnotations(injects)
 
         } else {
             let inCities = twCities.filter({
@@ -82,14 +82,11 @@ struct UIMapView: UIViewRepresentable {
                 mapView.addAnnotations(inCities)
                 return
             }
-
-            let rmAnnotations = inTWCities.filter({ !mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
-            let inCountycode = inTWCities
-                .filter({ mapView.visibleMapRect.contains(MKMapPoint($0.coordinate)) })
-                .compactMap({ $0.countycode })
-            let addAnnotations = inCities.filter { !inCountycode.contains($0.countycode) }
-            mapView.removeAnnotations(rmAnnotations)
-            mapView.addAnnotations(addAnnotations)
+            
+            let injects = inCities.filter({ !inTWCities.contains($0) })
+            let removes = inTWCities.filter({ !inCities.contains($0) })
+            mapView.removeAnnotations(removes)
+            mapView.addAnnotations(injects)
         }
     }
 }
