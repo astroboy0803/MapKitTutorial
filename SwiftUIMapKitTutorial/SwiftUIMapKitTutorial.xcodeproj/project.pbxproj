@@ -20,7 +20,6 @@
 		7876627E27C7D4BC00D27282 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876627D27C7D4BC00D27282 /* MapView.swift */; };
 		787D040927D8960C008BA6D9 /* CircleAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D040827D8960C008BA6D9 /* CircleAnnotationView.swift */; };
 		7885293127E5E19C00567103 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7885293027E5E19C00567103 /* BottomSheetView.swift */; };
-		7885293327E5E32800567103 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7885293227E5E32800567103 /* BlurView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +37,6 @@
 		7876627D27C7D4BC00D27282 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		787D040827D8960C008BA6D9 /* CircleAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleAnnotationView.swift; sourceTree = "<group>"; };
 		7885293027E5E19C00567103 /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
-		7885293227E5E32800567103 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				7885293027E5E19C00567103 /* BottomSheetView.swift */,
-				7885293227E5E32800567103 /* BlurView.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -192,7 +189,6 @@
 				7835435127D78E7800A9225B /* TWCity.swift in Sources */,
 				78094EB727C928A6003ECAA3 /* UIMapCoordinator.swift in Sources */,
 				787D040927D8960C008BA6D9 /* CircleAnnotationView.swift in Sources */,
-				7885293327E5E32800567103 /* BlurView.swift in Sources */,
 				7876627E27C7D4BC00D27282 /* MapView.swift in Sources */,
 				7876627027C7D47000D27282 /* SwiftUIMapKitTutorialApp.swift in Sources */,
 			);

@@ -55,7 +55,7 @@ struct BottomSheetView: View {
                     .padding(.top)
                 }
             }
-            .background(BlurView(style: .systemMaterial))
+            .background(.thinMaterial)
             .cornerRadius(15)
             .offset(y: geo.frame(in: .global).height - 140)
             // adding Gesture
