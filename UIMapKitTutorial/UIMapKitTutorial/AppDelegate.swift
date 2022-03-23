@@ -6,12 +6,76 @@
 //
 
 import UIKit
+import MapKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // test mkmappoint and mkmaprect
+        // latitude, longitude同數學座標計法(latitude越大越上, longitude越大越右)
+        
+        let point1: MKMapPoint = .init(.init(latitude: 23, longitude: 120))
+        let point2: MKMapPoint = .init(.init(latitude: 22, longitude: 118))
+        let mkRect: MKMapRect = .init(x: min(point1.x, point2.x), y: min(point1.y, point2.y), width: abs(point1.x-point2.x), height: abs(point1.y-point2.y))
+        print(mkRect)
+        
+        let mapRect = [point1, point2]
+            .map { MKMapRect(origin: $0, size: .init()) }
+            .reduce(MKMapRect.null) { rect, point in
+                rect.union(point)
+            }
+        print(mapRect)
+        
+        let point3: MKMapPoint = .init(.init(latitude: 22.5, longitude: 120.5))
+        print(mapRect.contains(point3))
+        let inRect: MKMapRect = .init(origin: point3, size: .init())
+        print(mapRect.contains(inRect))
+        
+        let point4: MKMapPoint = .init(.init(latitude: 21.5, longitude: 119.5))
+        print(mapRect.contains(point4))
+        let outRect: MKMapRect = .init(origin: point4, size: .init())
+        print(mapRect.contains(outRect))
+        
+        print(mapRect.intersects(inRect))
+        print(mapRect.intersects(outRect))
+        
+        let iMapRect = [point3, point4]
+            .map { MKMapRect(origin: $0, size: .init()) }
+            .reduce(MKMapRect.null) { rect, point in
+                rect.union(point)
+            }
+        print(iMapRect)
+        print(mapRect.intersects(iMapRect))
+        
+        let point5: MKMapPoint = .init(.init(latitude: 21, longitude: 119))
+        print(mapRect.contains(point5))
+        let ooutRect: MKMapRect = .init(origin: point5, size: .init())
+        print(mapRect.contains(ooutRect))
+        
+        let oMapRect = [point4, point5]
+            .map { MKMapRect(origin: $0, size: .init()) }
+            .reduce(MKMapRect.null) { rect, point in
+                rect.union(point)
+            }
+        print(oMapRect)
+        print(mapRect.intersects(oMapRect))
+        
+        let point6: MKMapPoint = .init(.init(latitude: 23.5, longitude: 121.5))
+        print(mapRect.contains(point6))
+        let oooutRect: MKMapRect = .init(origin: point6, size: .init())
+        print(mapRect.contains(oooutRect))
+        
+        let bMapRect = [point5, point6]
+            .map { MKMapRect(origin: $0, size: .init()) }
+            .reduce(MKMapRect.null) { rect, point in
+                rect.union(point)
+            }
+        print(bMapRect)
+        print(mapRect.contains(bMapRect))
+        print(mapRect.intersects(bMapRect))
+        
         return true
     }
 
