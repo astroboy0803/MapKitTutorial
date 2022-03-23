@@ -26,13 +26,11 @@ struct MapView: View {
                 // MapPin(coordinate: item.coordinate)
 
                 // MapMarker(coordinate: item.coordinate)
-
+                
+                // 可判斷item種類決定是否顯示, 但是操作起來很卡(對比mkmapview)
                 MapAnnotation(coordinate: item.coordinate, anchorPoint: .init(x: 0.5, y: 0.5)) {
-                    Circle()
-                        .strokeBorder(.red, lineWidth: 10)
-                        .frame(width: 20, height: 20)
-                        .onTapGesture {
-                            // open map app
+                    Button {
+                        // open map app
 //                            let addressDict: [String: String] = [CNPostalAddressStreetKey: "sub"]
 //
 //                            let placemark: MKPlacemark = .init(coordinate: region.center, addressDictionary: addressDict)
@@ -43,12 +41,20 @@ struct MapView: View {
 //                            ]
 //                            mapItem.openInMaps(launchOptions: launchOptions)
 
-                            // zoom in/out -> animation動畫處理
-                            let coordinate = item.coordinate
-                            let span: MKCoordinateSpan = .init(latitudeDelta: region.span.latitudeDelta / 2, longitudeDelta: region.span.longitudeDelta / 2)
-                            region = .init(center: coordinate, span: span)
-                        }
+                        // zoom in/out -> animation動畫處理
+                        let coordinate = item.coordinate
+                        let span: MKCoordinateSpan = .init(latitudeDelta: region.span.latitudeDelta / 2, longitudeDelta: region.span.longitudeDelta / 2)
+                        region = .init(center: coordinate, span: span)
+                    } label: {
+                        Circle()
+                            .fill(.red)
+                            .frame(width: 60, height: 60)
+                    }
                 }
+            }
+            .animation(.interactiveSpring(), value: region)
+            .onChange(of: region) { newValue in
+                print(">>>> \(newValue)")
             }
         }
     }
