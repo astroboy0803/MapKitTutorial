@@ -20,8 +20,6 @@ struct MapView: View {
 
     var body: some View {
         VStack {
-            Text("latitude = \(region.center.latitude), longitude = \(region.center.longitude)")
-            Text("latitudeDelta = \(region.span.latitudeDelta), longitudeDelta = \(region.span.longitudeDelta)")
             Map(coordinateRegion: $region, interactionModes: .all, showsUserLocation: false, annotationItems: places) { item in
                 // MapPin(coordinate: item.coordinate)
 
@@ -45,6 +43,10 @@ struct MapView: View {
                         let coordinate = item.coordinate
                         let span: MKCoordinateSpan = .init(latitudeDelta: region.span.latitudeDelta / 2, longitudeDelta: region.span.longitudeDelta / 2)
                         region = .init(center: coordinate, span: span)
+                        places = [
+                            .init(name: "彰化縣", latitude: 24.07555, longitude: 120.545069),
+                            .init(name: "桃園市", latitude: 25.02, longitude: 121.31)
+                        ]
                     } label: {
                         Circle()
                             .fill(.red)

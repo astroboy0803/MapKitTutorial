@@ -12,7 +12,10 @@ struct ContentView: View {
 
     @State private var region: MKCoordinateRegion
 
-    @State private var places: [Place] = []
+    @State private var places: [Place] = [
+        .init(name: "台北市", latitude: 25.0375671, longitude: 121.5654698),
+        .init(name: "台南市", latitude: 22.992995799999999, longitude: 120.18520150000001)
+    ]
 
     @State private var twCities: [TWCity] = []
 
@@ -30,7 +33,8 @@ struct ContentView: View {
                 Text("longitude = \(region.center.longitude)")
                 Text("latitudeDelta = \(region.span.latitudeDelta)")
                 Text("longitudeDelta = \(region.span.longitudeDelta)")
-                UIMapView(region: $region, twCities: $twCities, twAreas: $twAreas)
+                MapView(region: $region, places: $places)
+                //UIMapView(region: $region, twCities: $twCities, twAreas: $twAreas)
             }
             BottomSheetView()
 //            SlideOverCard {
